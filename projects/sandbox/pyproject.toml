@@ -3,8 +3,8 @@ steps = [
     "datagen:generate-background",
     "datagen:generate-waveforms",
     "datagen:generate-glitches",
-    "train:train:resnet",
-    "export:export-model:resnet",
+    "train:train:elenacnn",
+    "export:export-model:elenacnn",
     "datagen:generate-timeslides",
     "infer:infer",
     "analyze:analyze",
@@ -15,7 +15,7 @@ steps = [
 basedir = "${BASE_DIR}"
 datadir = "${DATA_DIR}"
 logdir = "${BASE_DIR}/log"
-sample_rate = 2048
+sample_rate = 4096
 ifos = ['H1', 'L1']
 glitch_start = 1262653854
 train_start = 1262653854
@@ -24,7 +24,10 @@ test_stop = 1262945822 # 3 day window for test
 channel = "DCS-CALIB_STRAIN_CLEAN_C01"
 frame_type = "HOFT_C01"
 state_flag = "DCS-ANALYSIS_READY_C01:1"
-resnet = {layers = [2, 2, 2, 2], norm_groups = 8}
+# resnet = {layers = [2, 2, 2, 2], norm_groups = 8}
+# wavenet = {c_depth = 8, n_chann = 64, l1 = 1024, l2 = 128}
+elenacnn = {dur=1, pool_size=2}
+# uwcnn = {in_channels=2}
 repository_directory = "${BASE_DIR}/model_repo/" 
 force_generation = false
 inference_sampling_rate = 16
@@ -91,7 +94,7 @@ force_generation = "${base.force_generation}"
 # input and output paths
 background_dataset = "${base.datadir}/background.h5"
 glitch_dataset = "${base.datadir}/glitches.h5"
-waveform_dataset = "${base.datadir}/signals.h5"
+waveform_dataset = "${base.datadir}/OConnor_4K_signal.h5"
 
 logdir = "${base.logdir}"
 outdir = "${base.basedir}/training"
@@ -129,7 +132,7 @@ profile = false
 use_amp = false
 
 # arch parameters
-commands.resnet = "${base.resnet}"
+commands.elenacnn = "${base.elenacnn}"
 
 [tool.typeo.scripts.export-model]
 # paths
@@ -153,7 +156,7 @@ verbose = false
 clean = true
 
 # arch parameters
-commands.resnet = "${base.resnet}"
+commands.elenacnn = "${base.elenacnn}"
 
 [tool.typeo.scripts.generate-timeslides]
 # paths and what not

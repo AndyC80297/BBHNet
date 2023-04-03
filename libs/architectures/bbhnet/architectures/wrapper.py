@@ -4,10 +4,15 @@ from collections.abc import Callable
 import torch
 
 from bbhnet.architectures.resnet import BottleneckResNet, ResNet
+from bbhnet.architectures.wavenet import WaveNet
+from bbhnet.architectures.normalcnn import ElenaCNN, UwCNN
 
 architectures = {
     "resnet": ResNet,
     "bottleneck": BottleneckResNet,
+    "wavenet": WaveNet,
+    "elenacnn": ElenaCNN,
+    "uwcnn": UwCNN
 }
 
 
